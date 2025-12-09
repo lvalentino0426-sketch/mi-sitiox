@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Corazón</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #000000, #1a0000);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* corazón */
+        .heart {
+            height: 150px;
+            width: 150px;
+            background-color: red;
+            position: relative;
+            transform: rotate(45deg);
+            animation: palpitar 0.8s ease-in-out infinite;
+            box-shadow: 0 0 35px red;
+        }
+
+        @keyframes palpitar {
+            0%{ transform: rotate(45deg) scale(1); }
+            50%{ transform: rotate(45deg) scale(1.2); }
+            100%{ transform: rotate(45deg) scale(1); }
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            height: 150px;
+            width: 150px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -75px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: -75px;
+            top: 0;
+        }
+
+        /* texto */
+        .contenido {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 45px;
+            margin: 0;
+            text-shadow: 0 0 15px red;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* botón de música */
+        .btn-musica {
+            margin-top: 25px;
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: red;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 15px red;
+            transition: 0.3s;
+        }
+
+        .btn-musica:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px red;
+        }
+
+        /* partículas románticas */
+        .corazones {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .corazon-float {
+            position: absolute;
+            font-size: 20px;
+            color: red;
+            animation: flotar 4s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(100vh) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- corazones flotando -->
+    <div class="corazones"></div>
+
+    <!-- corazón animado -->
+    <div class="heart"></div>
+
+    <!-- texto -->
+    <div class="contenido">
+        <h1>Te Amo</h1>
+        <h2>Eres lo mejor que me pasó</h2>
+    </div>
+
+    <!-- música -->
+    <audio id="musica" autoplay loop>
+        <source src="https://www.dropbox.com/scl/fi/xa8qqv7qcgcw4onfohz94/romantic.mp3?dl=1" type="audio/mp3">
+    </audio>
+
+    <!-- botón -->
+    <button class="btn-musica" onclick="toggleMusica()">⏸ Pausar música</button>
+
+    <script>
+        /* corazones flotantes aleatorios */
+        function crearCorazones() {
+            const cont = document.querySelector('.corazones');
+            const heart = document.createElement('div');
+            heart.classList.add('corazon-float');
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            cont.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(crearCorazones, 400);
+
+        /* control música */
+        let reproduciendo = true;
+        const audio = document.getElementById("musica");
+        const btn = document.querySelector(".btn-musica");
+
+        function toggleMusica() {
+            if (reproduciendo) {
+                audio.pause();
+                btn.innerHTML = "▶ Reproducir música";
+            } else {
+                audio.play();
+                btn.innerHTML = "⏸ Pausar música";
+            }
+            reproduciendo = !reproduciendo;
+        }
+    </script>
+
+</body>
+</html>
